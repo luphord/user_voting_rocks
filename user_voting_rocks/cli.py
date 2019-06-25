@@ -2,7 +2,10 @@
 
 '''Console script for user_voting_rocks.'''
 import sys
+import json
 import click
+
+from .user_voting_rocks import parse_talk_voting
 
 
 @click.group(name='user_voting_rocks')
@@ -11,10 +14,13 @@ def main(args=None):
     return 0
 
 
-@click.command(name='train')
-def cli_train():
-    '''Train a model user your talk voting.'''
-    raise NotImplementedError()
+@click.command(name='parse')
+@click.option('-i', '--input_file',
+              type=click.Path(exists=True),
+              required=True, help='HTML talk voting file to parse')
+def cli_parse(input_file):
+    '''Parse talk voting html file.'''
+    click.echo(json.dumps(parse_talk_voting(input_file)))
 
 
 @click.command(name='predict')
@@ -23,8 +29,15 @@ def cli_predict():
     raise NotImplementedError()
 
 
-main.add_command(cli_train)
+@click.command(name='train')
+def cli_train():
+    '''Train a model user your talk voting.'''
+    raise NotImplementedError()
+
+
+main.add_command(cli_parse)
 main.add_command(cli_predict)
+main.add_command(cli_train)
 
 
 if __name__ == '__main__':
