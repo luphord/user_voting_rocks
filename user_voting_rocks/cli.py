@@ -20,7 +20,7 @@ def main(args=None):
               required=True, help='HTML talk voting file to parse')
 def cli_parse(input_file):
     '''Parse talk voting html file.'''
-    click.echo(json.dumps(parse_talk_voting(input_file)))
+    click.echo(json.dumps(parse_talk_voting(input_file), indent=2))
 
 
 @click.command(name='predict')
