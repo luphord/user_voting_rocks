@@ -3,6 +3,7 @@
 '''Main module.'''
 
 from bs4 import BeautifulSoup
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 def parse_talk_voting(file_path):
@@ -35,4 +36,7 @@ def parse_talk_voting_iter(file_path):
 
 
 def train_model(voted_proposals):
+    data = [p['description'] for p in voted_proposals]
+    cnt = CountVectorizer()
+    print(cnt.fit_transform(data).shape)
     raise NotImplementedError()
