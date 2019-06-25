@@ -5,7 +5,7 @@ import sys
 import json
 import click
 
-from .user_voting_rocks import parse_talk_voting
+from .user_voting_rocks import parse_talk_voting, train_model
 
 
 @click.group(name='user_voting_rocks')
@@ -34,9 +34,19 @@ def cli_predict():
 
 
 @click.command(name='train')
-def cli_train():
+@click.option('-i', '--input_file',
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
+              required=True, help='JSON file containing parsed talk votes')
+@click.option('-m', '--model_file',
+              type=click.Path(file_okay=True, dir_okay=False),
+              required=True, help='Model file to save')
+def cli_train(input_file, model_file):
     '''Train a model user your talk voting.'''
-    raise NotImplementedError()
+    with open(input_file, 'r') as f:
+        talks = json.load(f)
+        voted_proposals = [p for p in talks['proposals'] if p['vote']]
+        model = train_model(voted_proposals)
+        model.save(model_file)
 
 
 main.add_command(cli_parse)

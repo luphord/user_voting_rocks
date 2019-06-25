@@ -32,3 +32,7 @@ def parse_talk_voting_iter(file_path):
                        domain_level=domain_level,
                        description=description,
                        vote=vote)
+
+
+def train_model(voted_proposals):
+    raise NotImplementedError()
