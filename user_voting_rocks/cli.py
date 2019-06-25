@@ -16,11 +16,15 @@ def main(args=None):
 
 @click.command(name='parse')
 @click.option('-i', '--input_file',
-              type=click.Path(exists=True),
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
               required=True, help='HTML talk voting file to parse')
-def cli_parse(input_file):
+@click.option('-o', '--output_file',
+              type=click.Path(file_okay=True, dir_okay=False),
+              required=True, help='JSON output file for parsed content')
+def cli_parse(input_file, output_file):
     '''Parse talk voting html file.'''
-    click.echo(json.dumps(parse_talk_voting(input_file), indent=2))
+    with open(output_file, 'w') as f:
+        json.dump(parse_talk_voting(input_file), f, indent=2)
 
 
 @click.command(name='predict')
