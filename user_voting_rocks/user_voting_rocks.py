@@ -4,6 +4,7 @@
 
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.naive_bayes import MultinomialNB
 
 from.stop_words import STOP_WORDS
 
@@ -36,11 +37,21 @@ def parse_talk_voting_iter(file_path):
                        description=description,
                        vote=vote)
 
+def vote_to_binary(vote):
+    return {
+        'No vote': 0,
+        'Not Interested': 0,
+        'Maybe': 0,
+        'Want to see': 1,
+        'Must see': 1
+    }[vote]
 
 def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
+    target = [vote_to_binary(p['vote']) for p in voted_proposals]
     cnt = CountVectorizer(min_df=0.05, max_df=0.5, stop_words=STOP_WORDS)
     counts = cnt.fit_transform(data)
     freq = TfidfTransformer().fit_transform(counts)
-    print(freq)
+    model = MultinomialNB().fit(freq, target)
+    print(model)
     raise NotImplementedError()
