@@ -3,7 +3,7 @@
 '''Main module.'''
 
 from bs4 import BeautifulSoup
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 from.stop_words import STOP_WORDS
 
@@ -40,6 +40,7 @@ def parse_talk_voting_iter(file_path):
 def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
     cnt = CountVectorizer(min_df=0.05, max_df=0.5, stop_words=STOP_WORDS)
-    print(cnt.fit_transform(data).shape)
-    print(cnt.get_feature_names())
+    counts = cnt.fit_transform(data)
+    freq = TfidfTransformer().fit_transform(counts)
+    print(freq)
     raise NotImplementedError()
