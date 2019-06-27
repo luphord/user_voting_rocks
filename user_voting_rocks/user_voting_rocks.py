@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-import numpy as np
 
 from.stop_words import STOP_WORDS
 
@@ -54,7 +53,8 @@ def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
     target = [vote_to_binary(p['vote']) for p in voted_proposals]
     model = Pipeline([
-        ('counter', CountVectorizer(min_df=0.05, max_df=0.5, stop_words=STOP_WORDS)),
+        ('counter', CountVectorizer(min_df=0.05, max_df=0.5,
+                                    stop_words=STOP_WORDS)),
         ('tfidf', TfidfTransformer()),
         ('naive_bayes', MultinomialNB(fit_prior=False))
     ])

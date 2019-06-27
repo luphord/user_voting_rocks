@@ -43,14 +43,14 @@ def cli_predict(model_file, input_file, skip_voted):
     with open(input_file, 'r') as f:
         talks = json.load(f)
         unvoted_proposals = [p for p in talks['proposals']
-                               if not skip_voted or not p['vote']]
+                             if not skip_voted or not p['vote']]
         with open(model_file, 'rb') as f:
             model = pickle.load(f)
         pred = model.predict_proba([p['description']
-                                    for p in  unvoted_proposals])
+                                    for p in unvoted_proposals])
         res = sorted([dict(title=proposal['title'], interest=interest)
                       for proposal, interest
-                      in zip(unvoted_proposals, pred[:,1].tolist())],
+                      in zip(unvoted_proposals, pred[:, 1].tolist())],
                      key=lambda d: d['interest'],
                      reverse=True)
         print(json.dumps(res, indent=2))
