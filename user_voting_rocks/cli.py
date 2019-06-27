@@ -16,10 +16,10 @@ def main(args=None):
 
 
 @click.command(name='parse')
-@click.option('-i', '--input_file',
+@click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
               required=True, help='HTML talk voting file to parse')
-@click.option('-o', '--output_file',
+@click.option('-o', '--output-file',
               type=click.Path(file_okay=True, dir_okay=False),
               required=True, help='JSON output file for parsed content')
 def cli_parse(input_file, output_file):
@@ -29,16 +29,34 @@ def cli_parse(input_file, output_file):
 
 
 @click.command(name='predict')
-def cli_predict():
+@click.option('-m', '--model-file',
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
+              required=True, help='Model file to load')
+@click.option('-i', '--input-file',
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
+              required=True, help='JSON file containing parsed talk votes')
+def cli_predict(model_file, input_file):
     '''Predict your interest in a single or multiple talks.'''
-    raise NotImplementedError()
+    with open(input_file, 'r') as f:
+        talks = json.load(f)
+        unvoted_proposals = [p for p in talks['proposals'] if not p['vote']]
+        with open(model_file, 'rb') as f:
+            model = pickle.load(f)
+        pred = model.predict_proba([p['description']
+                                    for p in  unvoted_proposals])
+        res = sorted([dict(title=proposal['title'], interest=interest)
+                      for proposal, interest
+                      in zip(unvoted_proposals, pred[:,1].tolist())],
+                     key=lambda d: d['interest'],
+                     reverse=True)
+        print(json.dumps(res, indent=2))
 
 
 @click.command(name='train')
-@click.option('-i', '--input_file',
+@click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
               required=True, help='JSON file containing parsed talk votes')
-@click.option('-m', '--model_file',
+@click.option('-m', '--model-file',
               type=click.Path(file_okay=True, dir_okay=False),
               required=True, help='Model file to save')
 def cli_train(input_file, model_file):
