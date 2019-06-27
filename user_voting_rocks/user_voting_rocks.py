@@ -56,7 +56,7 @@ def train_model(voted_proposals):
     model = Pipeline([
         ('counter', CountVectorizer(min_df=0.05, max_df=0.5, stop_words=STOP_WORDS)),
         ('tfidf', TfidfTransformer()),
-        ('naive_bayes', MultinomialNB())
+        ('naive_bayes', MultinomialNB(fit_prior=False))
     ])
     model.fit(data, target)
     return model
