@@ -5,6 +5,8 @@
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import CountVectorizer
 
+from.stop_words import STOP_WORDS
+
 
 def parse_talk_voting(file_path):
     proposals = list(parse_talk_voting_iter(file_path))
@@ -37,6 +39,7 @@ def parse_talk_voting_iter(file_path):
 
 def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
-    cnt = CountVectorizer()
+    cnt = CountVectorizer(min_df=0.05, max_df=0.5, stop_words=STOP_WORDS)
     print(cnt.fit_transform(data).shape)
+    print(cnt.get_feature_names())
     raise NotImplementedError()
