@@ -38,6 +38,7 @@ def parse_talk_voting_iter(file_path):
                        description=description,
                        vote=vote)
 
+
 def vote_to_binary(vote):
     return {
         'No vote': 0,
@@ -46,6 +47,7 @@ def vote_to_binary(vote):
         'Want to see': 1,
         'Must see': 1
     }[vote]
+
 
 def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
