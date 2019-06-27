@@ -4,6 +4,7 @@
 import sys
 import json
 import click
+import pickle
 
 from .user_voting_rocks import parse_talk_voting, train_model
 
@@ -46,7 +47,8 @@ def cli_train(input_file, model_file):
         talks = json.load(f)
         voted_proposals = [p for p in talks['proposals'] if p['vote']]
         model = train_model(voted_proposals)
-        model.save(model_file)
+        with open(model_file, 'wb') as f:
+            pickle.dump(model, f)
 
 
 main.add_command(cli_parse)
