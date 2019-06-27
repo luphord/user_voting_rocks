@@ -35,11 +35,15 @@ def cli_parse(input_file, output_file):
 @click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
               required=True, help='JSON file containing parsed talk votes')
-def cli_predict(model_file, input_file):
+@click.option('-s', '--skip-voted/--no-skip-voted', default=True,
+              show_default=True,
+              help='Skips all voted talks.')
+def cli_predict(model_file, input_file, skip_voted):
     '''Predict your interest in a single or multiple talks.'''
     with open(input_file, 'r') as f:
         talks = json.load(f)
-        unvoted_proposals = [p for p in talks['proposals'] if not p['vote']]
+        unvoted_proposals = [p for p in talks['proposals']
+                               if not skip_voted or not p['vote']]
         with open(model_file, 'rb') as f:
             model = pickle.load(f)
         pred = model.predict_proba([p['description']
