@@ -18,6 +18,20 @@ User Voting Rocks
 
 Use your personal talk voting for PyConDE 2019 to predict your interest in a talk.
 
+.. code-block:: console
+
+        Usage: user_voting_rocks [OPTIONS] COMMAND [ARGS]...
+
+        Commandline interface for user_voting_rocks.
+
+        Options:
+        --help  Show this message and exit.
+
+        Commands:
+        parse    Parse talk voting html file.
+        predict  Predict your interest in a single or multiple talks.
+        train    Train a model user your talk voting.
+
 
 * Free software: MIT license
 * Documentation: https://user-voting-rocks.readthedocs.io.
@@ -26,12 +40,19 @@ Use your personal talk voting for PyConDE 2019 to predict your interest in a tal
 Features
 --------
 
-* TODO
+* Parse PyConDE 2019 community voting HTML page to JSON
+* Train a Naive Bayes classifier on word frequencies of abstracts
+* Custom stop word list
+* Predict interest in a talk using the trained Naive Bayes classifier
+* CLI for parsing, training and predicting with persistence for parsed content and model
 
 Credits
 -------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+Main author and project maintainer is luphord_.
 
+This package was prepared with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+
+.. _luphord: https://github.com/luphord
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
