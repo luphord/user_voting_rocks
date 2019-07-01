@@ -18,6 +18,7 @@ User Voting Rocks
 
 Use your personal talk voting for PyConDE 2019 to predict your interest in a talk.
 
+
 Installation
 ------------
 
@@ -43,7 +44,7 @@ To receive recommendations, please try
 
 .. code-block:: console
 
-user_voting_rocks recommend -i ./Pycon\ Voting.html
+        user_voting_rocks recommend -i ./Pycon\ Voting.html
 
 This command will output the list of talks (that you have not yet voted on) by *decreasing* order of your predicted preference.
 
