@@ -4,7 +4,8 @@
 import sys
 import json
 import click
-import pickle
+
+import joblib
 
 from .user_voting_rocks import parse_talk_voting, train_model, predict, \
                                evaluate_model
@@ -57,7 +58,7 @@ def cli_predict(model_file, input_file, skip_voted):
         unvoted_proposals = [p for p in talks['proposals']
                              if not skip_voted or not p['vote']]
         with open(model_file, 'rb') as f:
-            model = pickle.load(f)
+            model = joblib.load(f)
         res = predict(model, unvoted_proposals)
         click.echo(json.dumps(res, indent=2))
 
@@ -94,7 +95,7 @@ def cli_train(input_file, model_file):
         voted_proposals = [p for p in talks['proposals'] if p['vote']]
         model = train_model(voted_proposals)
         with open(model_file, 'wb') as f:
-            pickle.dump(model, f)
+            joblib.dump(model, f)
 
 
 main.add_command(cli_evaluate)

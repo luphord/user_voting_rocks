@@ -14,7 +14,8 @@ with open('HISTORY.rst') as history_file:
 requirements = ['Click>=6.0',
                 'beautifulsoup4>=4.7'
                 'jupyter>=1.0',
-                'scikit-learn>=0.20']
+                'scikit-learn>=0.20',
+                'joblib>=0.13']
 
 setup_requirements = []
 
