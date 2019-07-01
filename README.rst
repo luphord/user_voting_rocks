@@ -18,6 +18,37 @@ User Voting Rocks
 
 Use your personal talk voting for PyConDE 2019 to predict your interest in a talk.
 
+Installation
+------------
+
+In order to install the released version, use pip install:
+
+.. code-block:: console
+
+        pip install user_voting_rocks
+
+In order to work with the current master, clone this respository, create + activate a virtual environment and then use pip install like this:
+
+.. code-block:: console
+
+        pip install -e .
+
+Usage
+-----
+
+Vote for talks you are interested in using the PyConDE 2019 community voting link you have received.
+Then reload the page (using your secret link) and save as `Pycon\ Voting.html` using your browser's *Save As* dialog.
+
+To receive recommendations, please try
+
+.. code-block:: console
+
+user_voting_rocks recommend -i ./Pycon\ Voting.html
+
+This command will output the list of talks (that you have not yet voted on) by *decreasing* order of your predicted preference.
+
+Full command line interface:
+
 .. code-block:: console
 
         Usage: user_voting_rocks [OPTIONS] COMMAND [ARGS]...
@@ -28,9 +59,11 @@ Use your personal talk voting for PyConDE 2019 to predict your interest in a tal
         --help  Show this message and exit.
 
         Commands:
-        parse    Parse talk voting html file.
-        predict  Predict your interest in a single or multiple talks.
-        train    Train a model user your talk voting.
+        evaluate   Evaluate the talk voting classifier.
+        parse      Parse talk voting html file.
+        predict    Predict your interest in a single or multiple talks.
+        recommend  Parse html, train model and predict unvoted talks.
+        train      Train a model user your talk voting.
 
 
 * Free software: MIT license
