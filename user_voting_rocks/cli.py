@@ -25,7 +25,8 @@ def cli_evaluate(input_file):
     '''Evaluate the talk voting classifier.'''
     talks = parse_talk_voting(input_file)
     voted_proposals = [p for p in talks['proposals'] if p['vote']]
-    click.echo(evaluate_model(voted_proposals))
+    scores = evaluate_model(voted_proposals)
+    click.echo(f'Accuracy (cross-validation): {scores.mean():.2f}')
 
 
 @click.command(name='parse')

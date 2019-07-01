@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import cross_val_score
 
 from.stop_words import STOP_WORDS
 
@@ -49,15 +50,19 @@ def vote_to_binary(vote):
     }[vote]
 
 
+def prepare_model():
+    return Pipeline([
+               ('counter', CountVectorizer(min_df=0.05, max_df=0.5,
+                                           stop_words=STOP_WORDS)),
+               ('tfidf', TfidfTransformer()),
+               ('naive_bayes', MultinomialNB(fit_prior=False))
+           ])
+
+
 def train_model(voted_proposals):
     data = [p['description'] for p in voted_proposals]
     target = [vote_to_binary(p['vote']) for p in voted_proposals]
-    model = Pipeline([
-        ('counter', CountVectorizer(min_df=0.05, max_df=0.5,
-                                    stop_words=STOP_WORDS)),
-        ('tfidf', TfidfTransformer()),
-        ('naive_bayes', MultinomialNB(fit_prior=False))
-    ])
+    model = prepare_model()
     model.fit(data, target)
     return model
 
@@ -74,4 +79,7 @@ def predict(model, unvoted_proposals):
 
 
 def evaluate_model(voted_proposals):
-    raise NotImplementedError()
+    data = [p['description'] for p in voted_proposals]
+    target = [vote_to_binary(p['vote']) for p in voted_proposals]
+    model = prepare_model()
+    return cross_val_score(model, data, target, cv=5)
