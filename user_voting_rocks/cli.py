@@ -67,6 +67,17 @@ def cli_predict(model_file, input_file, skip_voted):
         print(json.dumps(res, indent=2))
 
 
+@click.command(name='recommend')
+@click.option('-i', '--input-file',
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
+              required=True, help='HTML talk voting file to parse')
+def cli_recommend(input_file):
+    '''Parse html, train model and predict unvoted talks.'''
+    talks = parse_talk_voting(input_file)
+    voted_proposals = [p for p in talks['proposals'] if p['vote']]
+    raise NotImplementedError()
+
+
 @click.command(name='train')
 @click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
@@ -87,6 +98,7 @@ def cli_train(input_file, model_file):
 main.add_command(cli_evaluate)
 main.add_command(cli_parse)
 main.add_command(cli_predict)
+main.add_command(cli_recommend)
 main.add_command(cli_train)
 
 
