@@ -60,3 +60,7 @@ def train_model(voted_proposals):
     ])
     model.fit(data, target)
     return model
+
+
+def evaluate_model(voted_proposals):
+    raise NotImplementedError()

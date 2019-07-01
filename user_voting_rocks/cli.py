@@ -6,13 +6,24 @@ import json
 import click
 import pickle
 
-from .user_voting_rocks import parse_talk_voting, train_model
+from .user_voting_rocks import parse_talk_voting, train_model, evaluate_model
 
 
 @click.group(name='user_voting_rocks')
 def main(args=None):
     '''Commandline interface for user_voting_rocks.'''
     return 0
+
+
+@click.command(name='evaluate')
+@click.option('-i', '--input-file',
+              type=click.Path(exists=True, file_okay=True, dir_okay=False),
+              required=True, help='HTML talk voting file to parse')
+def cli_evaluate(input_file):
+    '''Evaluate the talk voting classifier.'''
+    talks = parse_talk_voting(input_file)
+    voted_proposals = [p for p in talks['proposals'] if p['vote']]
+    click.echo(evaluate_model(voted_proposals))
 
 
 @click.command(name='parse')
@@ -73,6 +84,7 @@ def cli_train(input_file, model_file):
             pickle.dump(model, f)
 
 
+main.add_command(cli_evaluate)
 main.add_command(cli_parse)
 main.add_command(cli_predict)
 main.add_command(cli_train)
