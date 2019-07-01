@@ -62,5 +62,16 @@ def train_model(voted_proposals):
     return model
 
 
+def predict(model, unvoted_proposals):
+    pred = model.predict_proba([p['description']
+                                for p in unvoted_proposals])
+    res = sorted([dict(title=proposal['title'], interest=interest)
+                  for proposal, interest
+                  in zip(unvoted_proposals, pred[:, 1].tolist())],
+                 key=lambda d: d['interest'],
+                 reverse=True)
+    return res
+
+
 def evaluate_model(voted_proposals):
     raise NotImplementedError()
