@@ -66,11 +66,18 @@ def cli_predict(model_file, input_file, skip_voted):
 @click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
               required=True, help='HTML talk voting file to parse')
-def cli_recommend(input_file):
+@click.option('-s', '--skip-voted/--no-skip-voted', default=True,
+              show_default=True,
+              help='Skips all voted talks.')
+def cli_recommend(input_file, skip_voted):
     '''Parse html, train model and predict unvoted talks.'''
     talks = parse_talk_voting(input_file)
     voted_proposals = [p for p in talks['proposals'] if p['vote']]
-    raise NotImplementedError()
+    proposals_to_predict = [p for p in talks['proposals']
+                            if not skip_voted or not p['vote']]
+    model = train_model(voted_proposals)
+    for pred in predict(model, proposals_to_predict):
+        click.echo(f'{pred["interest"]:.2f} {pred["title"]}')
 
 
 @click.command(name='train')
