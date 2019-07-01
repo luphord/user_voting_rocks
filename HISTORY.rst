@@ -6,6 +6,8 @@ History
 ------------------
 
 * *recommend* subcommand to perform parsing, training and prediction in a single step
+* *evaluate* subcommand to perform cross validation
+* Basic usage documentation
 
 0.1.0 (2019-06-28)
 ------------------
