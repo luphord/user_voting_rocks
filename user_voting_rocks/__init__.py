@@ -9,7 +9,7 @@
 
 __author__ = '''luphord'''
 __email__ = 'luphord@protonmail.com'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 from .parse import parse_talk_voting
 from .model import train_model, predict
