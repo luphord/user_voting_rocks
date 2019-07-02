@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""The setup script."""
+'''The setup script.'''
 
 from setuptools import setup, find_packages
 
@@ -22,7 +22,7 @@ setup_requirements = []
 test_requirements = []
 
 setup(
-    author="luphord",
+    author='luphord',
     author_email='luphord@protonmail.com',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -32,14 +32,14 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Use your personal talk voting for PyConDE 2019 to predict your interest in a talk.",
+    description='Use your personal talk voting for PyConDE 2019 to predict your interest in a talk.',
     entry_points={
         'console_scripts': [
             'user_voting_rocks=user_voting_rocks.cli:main',
         ],
     },
     install_requires=requirements,
-    license="MIT license",
+    license='MIT license',
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='user_voting_rocks',

@@ -30,6 +30,7 @@ def prepare_model():
 
 
 def train_model(voted_proposals):
+    '''Train a Naive Bayes classifier on voted talk proposals.'''
     data = [p['description'] for p in voted_proposals]
     target = [vote_to_binary(p['vote']) for p in voted_proposals]
     model = prepare_model()
@@ -38,6 +39,8 @@ def train_model(voted_proposals):
 
 
 def predict(model, unvoted_proposals):
+    '''Predict interest (probability of a talk being interesting)
+       using the trained model.'''
     pred = model.predict_proba([p['description']
                                 for p in unvoted_proposals])
     res = sorted([dict(title=proposal['title'], interest=interest)

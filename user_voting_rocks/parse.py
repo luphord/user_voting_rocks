@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 
 def parse_talk_voting(file_path):
+    '''Parse (screen scrape) talk voting HTML page.'''
     proposals = list(parse_talk_voting_iter(file_path))
     return dict(proposals=proposals)
 
