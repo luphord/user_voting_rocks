@@ -2,6 +2,11 @@
 History
 =======
 
+0.3.2 (2019-07-02)
+------------------
+
+* Use print instead of click.echo to circumvent encoding issues on Windows
+
 0.3.1 (2019-07-02)
 ------------------
 
