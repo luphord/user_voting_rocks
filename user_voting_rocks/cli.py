@@ -67,18 +67,13 @@ def cli_predict(model_file, input_file, skip_voted):
 @click.command(name='recommend')
 @click.option('-i', '--input-file',
               type=click.Path(exists=True, file_okay=True, dir_okay=False),
-              required=False, help='HTML talk voting file to parse')
-@click.option('-u', '--url',
-              type=click.STRING,
-              required=False, help='URL with secret token to download HTML file')
+              required=True, help='HTML talk voting file to parse')
 @click.option('-s', '--skip-voted/--no-skip-voted', default=True,
               show_default=True,
               help='Skips all voted talks.')
-def cli_recommend(input_file, url, skip_voted):
+def cli_recommend(input_file, skip_voted):
     '''Parse html, train model and predict unvoted talks.'''
-    if not input_file and not url:
-        raise Exception('Either input-file or url is required!')
-    talks = parse_talk_voting(input_file or url)
+    talks = parse_talk_voting(input_file)
     voted_proposals = [p for p in talks['proposals'] if p['vote']]
     proposals_to_predict = [p for p in talks['proposals']
                             if not skip_voted or not p['vote']]
