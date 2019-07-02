@@ -2,10 +2,15 @@
 History
 =======
 
+0.3.1 (2019-07-02)
+------------------
+
+* Fix encoding issue
+
 0.3.0 (2019-07-02)
 ------------------
 
-* refactor module structure
+* Refactor module structure
 
 0.2.0 (2019-07-01)
 ------------------

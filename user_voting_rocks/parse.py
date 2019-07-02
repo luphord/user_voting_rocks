@@ -12,7 +12,7 @@ def parse_talk_voting(file_path):
 
 
 def parse_talk_voting_iter(file_path):
-    with open(file_path, 'r') as f:
+    with open(file_path, 'rb') as f:
         soup = BeautifulSoup(f, 'html.parser')
         for proposal in soup.find_all('div', class_='proposal'):
             title = proposal.h2.text
