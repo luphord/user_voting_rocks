@@ -7,8 +7,8 @@ import click
 
 import joblib
 
-from .user_voting_rocks import parse_talk_voting, train_model, predict, \
-                               evaluate_model
+from .model import train_model, predict, evaluate_model
+from .parse import parse_talk_voting
 
 
 @click.group(name='user_voting_rocks')
