@@ -26,7 +26,7 @@ def cli_evaluate(input_file):
     talks = parse_talk_voting(input_file)
     voted_proposals = [p for p in talks['proposals'] if p['vote']]
     scores = evaluate_model(voted_proposals)
-    click.echo(f'Accuracy (cross-validation): {scores.mean():.2f}')
+    print(f'Accuracy (cross-validation): {scores.mean():.2f}')
 
 
 @click.command(name='parse')
@@ -61,7 +61,7 @@ def cli_predict(model_file, input_file, skip_voted):
         with open(model_file, 'rb') as f:
             model = joblib.load(f)
         res = predict(model, unvoted_proposals)
-        click.echo(json.dumps(res, indent=2))
+        print(json.dumps(res, indent=2))
 
 
 @click.command(name='recommend')
@@ -79,7 +79,7 @@ def cli_recommend(input_file, skip_voted):
                             if not skip_voted or not p['vote']]
     model = train_model(voted_proposals)
     for pred in predict(model, proposals_to_predict):
-        click.echo(f'{pred["interest"]:.2f} {pred["title"]}')
+        print(f'{pred["interest"]:.2f} {pred["title"]}')
 
 
 @click.command(name='train')
